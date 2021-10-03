@@ -1,0 +1,60 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Lost-in-Limbo
+
+//@version=4
+study("Bar/Candle Chart", "BoC", true)
+
+// Inputs
+barsOrCandles = input(title = "Bars or Candles", options = ["Bars", "Candles"], defval = "Bars", group = "Choose Bars or Candles")
+showLine = input(title = "Show Line Charts", defval = true)
+yes1 = input(title = "Ticker 1", defval = false)
+ticker_1 = input(title = "Choose Symbol", type = input.symbol, defval = "NYSE:GME")
+yes2 = input(title = "Ticker 2", defval = false)
+ticker_2 = input(title = "Choose Symbol", type = input.symbol, defval = "NYSE:AMC")
+yes3 = input(title = "Ticker 3", defval = false)
+ticker_3 = input(title = "Choose Symbol", type = input.symbol, defval = "NASDAQ:KOSS")
+timeFrame = input(title = "Timeframe", type = input.resolution, defval = "D")
+// Variables
+bar = barsOrCandles == "Bars"
+candle = barsOrCandles == "Candles"
+
+// Colors
+// c = open > close ? color.red : color.green
+// wickColor = open > close ? color.red : color.green
+// borderColor = open > close ? color.red : color.green
+
+// Declaring values
+open1 = security(ticker_1, timeFrame, open)
+high1 = security(ticker_1, timeFrame, high)
+low1 = security(ticker_1, timeFrame, low)
+close1 = security(ticker_1, timeFrame, close)
+
+
+open2 = security(ticker_2, timeFrame, open)
+high2 = security(ticker_2, timeFrame, high)
+low2 = security(ticker_2, timeFrame, low)
+close2 = security(ticker_2, timeFrame, close)
+
+
+open3 = security(ticker_3, timeFrame, open)
+high3 = security(ticker_3, timeFrame, high)
+low3 = security(ticker_3, timeFrame, low)
+close3 = security(ticker_3, timeFrame, close)
+
+
+// Plot Candles or Bars
+// Original
+// plotbar(bar ? open:na, high, low, close, color = c)
+// plotcandle(candle ? open:na, high, low, close, color = c, wickcolor = wickColor, bordercolor = borderColor)
+// Ticker 1
+plotbar(bar and yes1 ? open1:na, high1, low1, close1, color = open1 > close1 ? color.red : color.green)
+plotcandle(candle and yes1 ? open1:na, high1, low1, close1, color = open1 > close1 ? color.red : color.green, wickcolor = open1 > close1 ? color.red : color.green, bordercolor = open1 > close1 ? color.red : color.green)
+plot(showLine ? close1:na)
+// Ticker 2
+plotbar(bar and yes2 ? open2:na, high2, low2, close2, color = open2 > close2 ? color.red : color.green)
+plotcandle(candle and yes2 ? open2:na, high2, low2, close2, color = open2 > close2 ? color.red : color.green, wickcolor = open2 > close2 ? color.red : color.green, bordercolor = open2 > close2 ? color.red : color.green)
+plot(showLine ? close2:na)
+// Ticker 3
+plotbar(bar and yes3 ? open3:na, high3, low3, close3, color = open3 > close3 ? color.red : color.green)
+plotcandle(candle and yes3 ? open3:na, high3, low3, close3, color = open3 > close3 ? color.red : color.green, wickcolor = open3 > close3 ? color.red : color.green, bordercolor = open3 > close3 ? color.red : color.green)
+plot(showLine ? close3:na)
