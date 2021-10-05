@@ -1,0 +1,25 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Lost-in-Limbo
+
+// create a strategy, plot simple moving average 20 for low and high also plot the close with no display. enter strategy long when close is greater than simple moving average 20 for high and vice-versa for short.
+//@version=5
+strategy("20 SMA Strat", "B/S", true)
+
+// Inputs
+size = input(title = "Position Size", defval = 10)
+
+// sma = ta.sma(close, 20)
+smaHigh = ta.sma(high, 20)
+smaLow = ta.sma(low, 20)
+
+
+// Plot SMA's
+plot(close, display = display.none)
+plot(smaHigh, color = color.rgb(255, 99, 71))
+plot(smaLow, color = color.rgb(34, 139, 34))
+
+// Entry/Exit
+strategy.entry("Go Long!", strategy.long, size, when = close > smaHigh)
+strategy.exit("Exit Long!", "Go Long!", loss = size, when = close < smaHigh)
+strategy.entry("Go Short!", strategy.short, size, when = close < smaLow)
+strategy.exit("Exit Short!", "Go Short!", loss = 5, when = close >  smaLow)
