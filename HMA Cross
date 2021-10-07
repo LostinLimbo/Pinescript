@@ -1,0 +1,34 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Lost-in-Limbo
+
+//@version=5
+strategy("HMA cross", overlay=true, margin_long=100, margin_short=100)
+
+// Inputs
+shortLength = input(8, "Short HMA Length")
+shortSrc = input(close, "Short Source")
+longLength = input(13, "Long HMA Length")
+longSrc = input(close, "Long Source")
+res = input.timeframe("", "Timeframe")
+
+// Variables
+hmaShort = ta.hma(shortSrc, shortLength)
+hmaLong = ta.hma(longSrc, longLength)
+makeCross = request.security(syminfo.tickerid, res, hmaLong)
+
+// Plots
+plot(hmaShort, color = color.blue)
+plot(hmaLong, color = color.red)
+plot(ta.cross(hmaShort, hmaLong) ? makeCross:na, style = plot.style_cross, linewidth = 4, color = color.yellow)
+
+// Long
+longCondition = ta.crossover(hmaShort, hmaLong)
+if (longCondition)
+    strategy.entry("Buy", strategy.long)
+    
+
+// Short    
+shortCondition = ta.crossover(hmaLong, hmaShort)
+if (shortCondition)
+    strategy.entry("Sell", strategy.short)
+
