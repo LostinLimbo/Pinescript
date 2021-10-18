@@ -11,37 +11,37 @@ showCam = input(false, "Show Camarilla Pivots?")
 labelsOn = input(false, "Turn Labels On?")
 
 showR1  = input(true, "R1", inline = "level 0", group = "Individual Pivots")
-colorR1 = input(color.rgb(128,0,0), "", inline = "level 0", group = "Individual Pivots")
+colorR1 = input(color.rgb(255,0,0), "", inline = "level 0", group = "Individual Pivots")
 showR2  = input(true, "R2", inline = "level 1", group = "Individual Pivots")
-colorR2 = input(color.rgb(128,0,0), "", inline = "level 1", group = "Individual Pivots")
+colorR2 = input(color.rgb(255,0,00), "", inline = "level 1", group = "Individual Pivots")
 showR3  = input(true, "R3", inline = "level 2", group = "Individual Pivots")
-colorR3 = input(color.rgb(128,0,0), "", inline = "level 2", group = "Individual Pivots")
+colorR3 = input(color.rgb(255,0,0), "", inline = "level 2", group = "Individual Pivots")
 showR4  = input(true, "R4", inline = "level 3", group = "Individual Pivots")
-colorR4 = input(color.rgb(128,0,0), "", inline = "level 3", group = "Individual Pivots")
+colorR4 = input(color.rgb(255,0,0), "", inline = "level 3", group = "Individual Pivots")
 showR5  = input(true, "R5", inline = "level 4", group = "Individual Pivots")
-colorR5 = input(color.rgb(128,0,0), "", inline = "level 4", group = "Individual Pivots")
+colorR5 = input(color.rgb(0,188,212), "", inline = "level 4", group = "Individual Pivots")
 showR6  = input(true, "R6", inline = "level 5", group = "Individual Pivots")
-colorR6 = input(color.rgb(128,0,0), "", inline = "level 5", group = "Individual Pivots")
+colorR6 = input(color.rgb(0,188,212), "", inline = "level 5", group = "Individual Pivots")
 
 showS1  = input(true, "S1", inline = "level 0", group = "Individual Pivots")
-colorS1 = input(color.rgb(0,255,0), "", inline = "level 0", group = "Individual Pivots")
+colorS1 = input(color.rgb(56,142,60), "", inline = "level 0", group = "Individual Pivots")
 showS2  = input(true, "S2", inline = "level 1", group = "Individual Pivots")
-colorS2 = input(color.rgb(0,255,0), "", inline = "level 1", group = "Individual Pivots")
+colorS2 = input(color.rgb(56,142,60), "", inline = "level 1", group = "Individual Pivots")
 showS3  = input(true, "S3", inline = "level 2", group = "Individual Pivots")
-colorS3 = input(color.rgb(0,255,0), "", inline = "level 2", group = "Individual Pivots")
+colorS3 = input(color.rgb(56,142,60), "", inline = "level 2", group = "Individual Pivots")
 showS4  = input(true, "S4", inline = "level 3", group = "Individual Pivots")
-colorS4 = input(color.rgb(0,255,0), "", inline = "level 3", group = "Individual Pivots")
+colorS4 = input(color.rgb(56,142,60), "", inline = "level 3", group = "Individual Pivots")
 showS5  = input(true, "S5", inline = "level 4", group = "Individual Pivots")
-colorS5 = input(color.rgb(0,255,0), "", inline = "level 4", group = "Individual Pivots")
+colorS5 = input(color.rgb(0,188,212), "", inline = "level 4", group = "Individual Pivots")
 showS6  = input(true, "S6", inline = "level 5", group = "Individual Pivots")
-colorS6 = input(color.rgb(0,255,0), "", inline = "level 5", group = "Individual Pivots")
+colorS6 = input(color.rgb(0,188,212), "", inline = "level 5", group = "Individual Pivots")
 
 
 // Variable
 dHigh = request.security(syminfo.ticker, "D", high[1])
 dLow = request.security(syminfo.ticker, "D", low[1])
 dClose = request.security(syminfo.ticker, "D", close[1])
-
+lTime = timenow + 3600000
 
 // CALCULATIONS
 
@@ -81,57 +81,75 @@ if showCam
         cr1l = line.new(time_tradingday, cr1, time_close, cr1, xloc = xloc.bar_time, color = colorR1, style = line.style_dashed)
         line.delete(cr1l[1])
         if labelsOn
-            cr1lb = label.new(timenow, cr1, text = "R1 - " + str.tostring(truncate(cr1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR1, size = size.small, style = label.style_none)    
+            cr1lb = label.new(lTime, cr1, text = "R1 - " + str.tostring(truncate(cr1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR1, size = size.small, style = label.style_none)    
             label.delete(cr1lb[1])
     if showR2
         cr2l = line.new(time_tradingday, cr2, time_close, cr2, xloc = xloc.bar_time, color = colorR2, style = line.style_dashed)
         line.delete(cr2l[1])
         if labelsOn
-            cr2lb = label.new(timenow, cr2, text = "R2 - " + str.tostring(truncate(cr2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR2, size = size.small, style = label.style_none)
+            cr2lb = label.new(lTime, cr2, text = "R2 - " + str.tostring(truncate(cr2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR2, size = size.small, style = label.style_none)
             label.delete(cr2lb[1])
     if showR3
         cr3l = line.new(time_tradingday, cr3, time_close, cr3, xloc = xloc.bar_time, color = colorR3, style = line.style_dashed)
         line.delete(cr3l[1])
         if labelsOn
-            cr3lb = label.new(timenow, cr3, text = "R3 - Short Reversal - " + str.tostring(truncate(cr3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR3, size = size.small, style = label.style_none)
+            cr3lb = label.new(lTime, cr3, text = "R3 - Short Reversal - " + str.tostring(truncate(cr3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR3, size = size.small, style = label.style_none)
             label.delete(cr3lb[1])
     if showR4
         cr4l = line.new(time_tradingday, cr4, time_close, cr4, xloc = xloc.bar_time, color = colorR4, style = line.style_dashed)
         line.delete(cr4l[1])
         if labelsOn
-            cr4lb = label.new(timenow, cr4, text = "R4 - Long Breakout - " + str.tostring(truncate(cr4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR4, size = size.small, style = label.style_none)
+            cr4lb = label.new(lTime, cr4, text = "R4 - Long Breakout - " + str.tostring(truncate(cr4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR4, size = size.small, style = label.style_none)
             label.delete(cr4lb[1])
     if showR5
         cr5l = line.new(time_tradingday, cr5, time_close, cr5, xloc = xloc.bar_time, color = colorR5, style = line.style_dashed)
         line.delete(cr5l[1])
         if labelsOn
-            cr5lb = label.new(timenow, cr5, text = "R5 - Target 1 - " + str.tostring(truncate(cr5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR5, size = size.small, style = label.style_none)
+            cr5lb = label.new(lTime, cr5, text = "R5 - Target 1 - " + str.tostring(truncate(cr5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR5, size = size.small, style = label.style_none)
             label.delete(cr5lb[1])
     if showR6
         cr6l = line.new(time_tradingday, cr6, time_close, cr6, xloc = xloc.bar_time, color = colorR6, style = line.style_dashed)
         line.delete(cr6l[1])
         if labelsOn
-            cr6lb = label.new(timenow, cr6, text = "R6 - Target 2 - " + str.tostring(truncate(cr6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR6, size = size.small, style = label.style_none)
+            cr6lb = label.new(lTime, cr6, text = "R6 - Target 2 - " + str.tostring(truncate(cr6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR6, size = size.small, style = label.style_none)
             label.delete(cr6lb[1])
     
     if showS1
-        cs1l = line.new(time_tradingday, cs1, time_close, cs1, xloc = xloc.bar_time, color = color.green, style = line.style_dashed)
+        cs1l = line.new(time_tradingday, cs1, time_close, cs1, xloc = xloc.bar_time, color = colorS1, style = line.style_dashed)
         line.delete(cs1l[1])
+        if labelsOn
+            cs1lb = label.new(lTime, cs1, text = "S1 - " + str.tostring(truncate(cs1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS1, size = size.small, style = label.style_none)
+            label.delete(cs1lb[1])
     if showS2
-        cs2l = line.new(time_tradingday, cs2, time_close, cs2, xloc = xloc.bar_time, color = color.green, style = line.style_dashed)
+        cs2l = line.new(time_tradingday, cs2, time_close, cs2, xloc = xloc.bar_time, color = colorS2, style = line.style_dashed)
         line.delete(cs2l[1])
+        if labelsOn
+            cs2lb = label.new(lTime, cs2, text = "S2 - " + str.tostring(truncate(cs2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS2, size = size.small, style = label.style_none)
+            label.delete(cs2lb[1])
     if showS3    
-        cs3l = line.new(time_tradingday, cs3, time_close, cs3, xloc = xloc.bar_time, color = color.green, style = line.style_dashed)
+        cs3l = line.new(time_tradingday, cs3, time_close, cs3, xloc = xloc.bar_time, color = colorS3, style = line.style_dashed)
         line.delete(cs3l[1])
+        if labelsOn
+            cs3lb = label.new(lTime, cs3, text = "S3 - Long Reversal - " + str.tostring(truncate(cs3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS3, size = size.small, style = label.style_none)
+            label.delete(cs3lb[1])
     if showS4    
-        cs4l = line.new(time_tradingday, cs4, time_close, cs4, xloc = xloc.bar_time, color = color.green, style = line.style_dashed)
+        cs4l = line.new(time_tradingday, cs4, time_close, cs4, xloc = xloc.bar_time, color = colorS4, style = line.style_dashed)
         line.delete(cs4l[1])
+        if labelsOn
+            cs4lb = label.new(lTime, cs4, text = "S4 - Short Breakout - " + str.tostring(truncate(cs4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS4, size = size.small, style = label.style_none)
+            label.delete(cs4lb[1])
     if showS5
-        cs5l = line.new(time_tradingday, cs5, time_close, cs5, xloc = xloc.bar_time, color = color.green, style = line.style_dashed)
+        cs5l = line.new(time_tradingday, cs5, time_close, cs5, xloc = xloc.bar_time, color = colorS5, style = line.style_dashed)
         line.delete(cs5l[1])
+        if labelsOn
+            cs5lb = label.new(lTime, cs5, text = "S5 - Target 1 - " + str.tostring(truncate(cs5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS5, size = size.small, style = label.style_none)
+            label.delete(cs5lb[1])
     if showS6
-        cs6l = line.new(time_tradingday, cs6, time_close, cs6, xloc = xloc.bar_time, color = color.green, style = line.style_dashed)
+        cs6l = line.new(time_tradingday, cs6, time_close, cs6, xloc = xloc.bar_time, color = colorS6, style = line.style_dashed)
         line.delete(cs6l[1])
+        if labelsOn
+            cs6lb = label.new(lTime, cs6, text = "S6 - Target 2 - " + str.tostring(truncate(cs6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS6, size = size.small, style = label.style_none)
+            label.delete(cs6lb[1])
     
 
 // Persons
