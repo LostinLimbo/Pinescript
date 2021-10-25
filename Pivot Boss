@@ -1,0 +1,25 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Lost-in-Limbo
+
+//@version=5
+indicator("Extreme Reversal System", "ERS", true)
+
+// Inputs
+
+bodySize = input.float(.525, "Body Size", maxval = 1, step = .05, group = "Extreme Reversal")
+barsBack = input.int(50, "Lookback", maxval = 50, group = "Extreme Reversal")
+bodyMultiplier = input.float(2, "Body Multiplier", maxval = 5, step = 0.25, group = "Extreme Reversal")
+
+// Declarations
+myBody = math.abs(close - open)
+averageBody = ta.sma(myBody, barsBack)
+myCandle = (high - low)
+averageCandle = ta.sma(myCandle, barsBack)
+
+// Calculations
+exLong = ((open[1] - close[1]) >= (bodySize * (high[1] - low[1]))) and ((high[1] - low[1]) > (averageCandle * bodyMultiplier)) and ((open[1] - close[1]) > averageBody) and (close > open)
+exShort = ((close[1] - open[1]) >= (bodySize * (high[1] - low[1]))) and ((high[1] - low[1]) > (averageCandle * bodyMultiplier)) and ((close[1] - open[1]) > averageBody) and (open > close)
+
+// Labels
+plotshape(exLong, style = shape.arrowup, color = color.green, location = location.belowbar, size = size.auto)
+plotshape(exShort, style = shape.arrowdown, color = color.red, location = location.abovebar, size = size.auto)
