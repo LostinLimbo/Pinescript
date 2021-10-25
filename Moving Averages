@@ -1,0 +1,33 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Lost-in-Limbo
+
+//@version=5
+indicator("Moving Averages", "MA", true)
+
+// Inputs
+
+ma1 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 0", group = "Moving Averages")
+length1 = input(5, "Length", inline = "level 0", group = "Moving Averages")
+src1 = input(close, "Source", inline = "level 0", group = "Moving Averages")
+
+ma2 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 1", group = "Moving Averages")
+length2 = input(8, "Length", inline = "level 1", group = "Moving Averages")
+src2 = input(close, "Source", inline = "level 1", group = "Moving Averages")
+
+ma3 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 1", group = "Moving Averages")
+length3 = input(13, "Length", inline = "level 1", group = "Moving Averages")
+src3 = input(close, "Source", inline = "level 1", group = "Moving Averages")
+
+ma4 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 1", group = "Moving Averages")
+length4 = input(21, "Length", inline = "level 1", group = "Moving Averages")
+src4 = input(close, "Source", inline = "level 1", group = "Moving Averages")
+
+// Variables
+
+
+
+
+plot(ma1 == "sma" ? ta.sma(src1, length1): ma1 == "ema" ? ta.ema(src1, length1): ma1 == "hma" ? ta.hma(src1, length1):na)
+plot(ma2 == "sma" ? ta.sma(src2, length2): ma2 == "ema" ? ta.ema(src2, length2): ma2 == "hma" ? ta.hma(src2, length2):na)
+plot(ma3 == "sma" ? ta.sma(src3, length3): ma3 == "ema" ? ta.ema(src3, length3): ma3 == "hma" ? ta.hma(src3, length3):na)
+plot(ma4 == "sma" ? ta.sma(src4, length4): ma4 == "ema" ? ta.ema(src4, length4): ma4 == "hma" ? ta.hma(src4, length4):na)
