@@ -2,7 +2,10 @@
 // © Lost-in-Limbo
 
 //@version=5
-indicator("Extreme Reversal System", "ERS", true)
+indicator("Pivot Boss", "PB", true, max_labels_count = 500)
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Extreme Reversal
 
 // Inputs
 
@@ -10,16 +13,53 @@ bodySize = input.float(.525, "Body Size", maxval = 1, step = .05, group = "Extre
 barsBack = input.int(50, "Lookback", maxval = 50, group = "Extreme Reversal")
 bodyMultiplier = input.float(2, "Body Multiplier", maxval = 5, step = 0.25, group = "Extreme Reversal")
 
-// Declarations
+// Variables
+
 myBody = math.abs(close - open)
 averageBody = ta.sma(myBody, barsBack)
 myCandle = (high - low)
 averageCandle = ta.sma(myCandle, barsBack)
 
 // Calculations
-exLong = ((open[1] - close[1]) >= (bodySize * (high[1] - low[1]))) and ((high[1] - low[1]) > (averageCandle * bodyMultiplier)) and ((open[1] - close[1]) > averageBody) and (close > open)
-exShort = ((close[1] - open[1]) >= (bodySize * (high[1] - low[1]))) and ((high[1] - low[1]) > (averageCandle * bodyMultiplier)) and ((close[1] - open[1]) > averageBody) and (open > close)
+
+exLong = ((open[1] - close[1]) >= (bodySize * (high[1] - low[1]))) and 
+         ((high[1] - low[1]) > (averageCandle * bodyMultiplier)) and 
+         ((open[1] - close[1]) > averageBody) and (close > open)
+
+exShort = ((close[1] - open[1]) >= (bodySize * (high[1] - low[1]))) and 
+          ((high[1] - low[1]) > (averageCandle * bodyMultiplier)) and 
+          ((close[1] - open[1]) > averageBody) and (open > close)
 
 // Labels
-plotshape(exLong, style = shape.arrowup, color = color.green, location = location.belowbar, size = size.auto)
-plotshape(exShort, style = shape.arrowdown, color = color.red, location = location.abovebar, size = size.auto)
+
+exlLabel = label.new(exLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_triangleup, size = size.auto, tooltip = "Bullish Extreme Reversal")
+exsLabel = label.new(exShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_triangledown, size = size.auto, tooltip = "Bearish Extreme Reversal")
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Wick Reversal
+
+// Inputs
+
+wickMultiply = input.float(3.5, "Wick to body Ratio", step = .5, maxval = 20, group = "Wick Reversal")
+bodyPercent = input.float(.35, "Body Close Percentage", step = .05, maxval = 1, group = "Wick Reversal")
+
+// Calculations
+
+wickLong = (close > open) and (open - low) >= ((close - open) * wickMultiply) and (high - close) <= ((high - low) * bodyPercent) or 
+           (close < open) and (close - low) >= ((open - close) * wickMultiply) and (high - close) <= ((high - low) * bodyPercent) or 
+           (close == open) and (close != high) and (high - low) >= ((high - close) * wickMultiply) and (high - close) <= ((high - low) * bodyPercent) or 
+           (open == high) and (close == high) and (high - low) >= ta.sma((high - low), 50)
+
+wickShort =(close < open) and (high - open) >= ((open - close) * wickMultiply) and (close - low) <= ((high - low) * bodyPercent) or 
+           (close > open) and (high - close) >= ((close - open) * wickMultiply) and (close - low) <= ((high - low) * bodyPercent) or 
+           (close == open) and (close != low) and (high - low) >= ((close - low) * wickMultiply) and (close - low) <= ((high - low) * bodyPercent) or 
+           (open == low) and (close == low) and (high - low) >= ta.sma((high - low), 50)
+
+// Labels
+
+wlLabel = label.new(wickLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_xcross, size = size.auto, tooltip = "Bullish Wick Reversal")
+wsLabel = label.new(wickShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_xcross, size = size.auto, tooltip = "Bearish Wick Reversal")
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
