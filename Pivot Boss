@@ -51,6 +51,11 @@ wickLong = (close > open) and (open - low) >= ((close - open) * wickMultiply) an
            (close == open) and (close != high) and (high - low) >= ((high - close) * wickMultiply) and (high - close) <= ((high - low) * bodyPercent) or 
            (open == high) and (close == high) and (high - low) >= ta.sma((high - low), 50)
 
+// wickLConfirm = (close[2] > open[2]) and (open[2] - low[2]) >= ((close[2] - open[2]) * wickMultiply) and (high[2] - close[2]) <= ((high[2] - low[2]) * bodyPercent) and (close[1] < close) and (close[2] < close[1]) or 
+//               (close[2] < open[2]) and (close[2] - low[2]) >= ((open[2] - close[2]) * wickMultiply) and (high[2] - close[2]) <= ((high[2] - low[2]) * bodyPercent) and (close[1] < close) and (close[2] < close[1]) or 
+//               (close[2] == open[2]) and (close[2] != high[2]) and (high[2] - low[2]) >= ((high[2] - close[2]) * wickMultiply) and (high[2] - close[2]) <= ((high[2] - low[2]) * bodyPercent) and (close[1] < close) and (close[2] < close[1]) or 
+//               (open[2] == high[2]) and (close[2] == high[2]) and (high[2] - low[2]) >= ta.sma((high[2] - low[2]), 50) and (close[1] < close) and (close[2] < close[1])
+
 wickShort =(close < open) and (high - open) >= ((open - close) * wickMultiply) and (close - low) <= ((high - low) * bodyPercent) or 
            (close > open) and (high - close) >= ((close - open) * wickMultiply) and (close - low) <= ((high - low) * bodyPercent) or 
            (close == open) and (close != low) and (high - low) >= ((close - low) * wickMultiply) and (close - low) <= ((high - low) * bodyPercent) or 
@@ -59,7 +64,54 @@ wickShort =(close < open) and (high - open) >= ((open - close) * wickMultiply) a
 // Labels
 
 wlLabel = label.new(wickLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_xcross, size = size.auto, tooltip = "Bullish Wick Reversal")
+// wlConfirm = label.new(wickLConfirm ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.blue, style = label.style_xcross, size = size.auto, tooltip = "Bullish Wick Reversal Confirm")
 wsLabel = label.new(wickShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_xcross, size = size.auto, tooltip = "Bearish Wick Reversal")
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Doji Reversal
 
+// Inputs
+
+pickSma = input(10, "SMA Length", group = "Doji Reversal")
+percent = input.float(.10, "Doji Body Percentage", maxval = 1, group = "Doji Reversal")
+
+// Variables
+
+rangeHL = high[1] - low [1]
+rangeCO = math.abs(close[1] - open[1])
+sma = ta.sma(close, pickSma)
+
+// Calculations
+
+dojiLong = (rangeCO <= (rangeHL * percent)) and (close < low[1]) and (low[1] > sma) and (close < open) or 
+           (close < low[2]) and (close[1] > low[2]) and (rangeCO[1] <= (rangeHL[1] * percent)) and (close < open) and (low[2] > sma)
+           
+dojiShort =(rangeCO <= (rangeHL * percent)) and (close > high[1]) and (high[1] < sma) and (close > open) or
+           (close > high[2]) and (close[1] < high[2]) and (rangeCO[1] <= (rangeHL[1] * percent)) and (close > open) and (high[2] < sma)
+
+// Labels
+
+dlLabel = label.new(dojiLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_diamond, size = size.auto, tooltip = "Bullish Doji Reversal")
+dsLabel = label.new(dojiShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_diamond, size = size.auto, tooltip = "Bearish Doji Reversal")
+
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Outside Reversal
+
+// Inputs
+barMultiply = input.float(1.25, "Bar Multiplier", step = .05, maxval = 3.5, group = "Outside Reversal")
+barLookback = input.int(50, "Bar Lookback", maxval = 250, group = "Outside Reversal")
+
+// Variables
+myCandleSize = (high - low)
+avgCandle = ta.sma(myCandleSize, barLookback)
+
+// Calculations
+outLong = (low < low[1]) and (close > high[1]) and ((high - low) >= (avgCandle * barMultiply))
+
+outShort = (high > high[1]) and (close < low[1]) and ((high - low) >= (avgCandle * barMultiply))
+
+// Labels
+olLabel = label.new(outLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_cross, size = size.auto, tooltip = "Bullish Outside Reversal")
+osLabel = label.new(outShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_cross, size = size.auto, tooltip = "Bearish Outside Reversal")
