@@ -41,7 +41,7 @@ exsLabel = label.new(exShort and showEx ? bar_index:na, high, "", yloc = yloc.ab
 // Wick Reversal
 
 // Inputs
-
+showWick = input(true, "Show Wick Reversal", group = "Wick Reversal")
 wickMultiply = input.float(3.5, "Wick to body Ratio", step = .5, maxval = 20, group = "Wick Reversal")
 bodyPercent = input.float(.35, "Body Close Percentage", step = .05, maxval = 1, group = "Wick Reversal")
 
@@ -64,15 +64,15 @@ wickShort =(close < open) and (high - open) >= ((open - close) * wickMultiply) a
 
 // Labels
 
-wlLabel = label.new(wickLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_xcross, size = size.auto, tooltip = "Bullish Wick Reversal")
+wlLabel = label.new(wickLong and showWick ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_xcross, size = size.auto, tooltip = "Bullish Wick Reversal")
 // wlConfirm = label.new(wickLConfirm ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.blue, style = label.style_xcross, size = size.auto, tooltip = "Bullish Wick Reversal Confirm")
-wsLabel = label.new(wickShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_xcross, size = size.auto, tooltip = "Bearish Wick Reversal")
+wsLabel = label.new(wickShort and showWick ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_xcross, size = size.auto, tooltip = "Bearish Wick Reversal")
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Doji Reversal
 
 // Inputs
-
+showDoji = input(true, "Show Doji Reversal", group = "Doji Reversal")
 pickSma = input(10, "SMA Length", group = "Doji Reversal")
 percent = input.float(.10, "Doji Body Percentage", maxval = 1, group = "Doji Reversal")
 
@@ -84,16 +84,16 @@ sma = ta.sma(close, pickSma)
 
 // Calculations
 
-dojiLong = (rangeCO <= (rangeHL * percent)) and (close < low[1]) and (low[1] > sma) and (close < open) or 
+dojiShort = (rangeCO <= (rangeHL * percent)) and (close < low[1]) and (low[1] > sma) and (close < open) or 
            (close < low[2]) and (close[1] > low[2]) and (rangeCO[1] <= (rangeHL[1] * percent)) and (close < open) and (low[2] > sma)
            
-dojiShort =(rangeCO <= (rangeHL * percent)) and (close > high[1]) and (high[1] < sma) and (close > open) or
+dojiLong =(rangeCO <= (rangeHL * percent)) and (close > high[1]) and (high[1] < sma) and (close > open) or
            (close > high[2]) and (close[1] < high[2]) and (rangeCO[1] <= (rangeHL[1] * percent)) and (close > open) and (high[2] < sma)
 
 // Labels
 
-dlLabel = label.new(dojiLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_diamond, size = size.auto, tooltip = "Bullish Doji Reversal")
-dsLabel = label.new(dojiShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_diamond, size = size.auto, tooltip = "Bearish Doji Reversal")
+dlLabel = label.new(dojiLong and showDoji ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_diamond, size = size.auto, tooltip = "Bullish Doji Reversal")
+dsLabel = label.new(dojiShort and showDoji ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_diamond, size = size.auto, tooltip = "Bearish Doji Reversal")
 
 
 
@@ -101,6 +101,7 @@ dsLabel = label.new(dojiShort ? bar_index:na, high, "", yloc = yloc.abovebar, co
 // Outside Reversal
 
 // Inputs
+showOut = input(true, "Show Outside Reversal", group = "Outside Reversal")
 barMultiply = input.float(1.25, "Bar Multiplier", step = .05, maxval = 3.5, group = "Outside Reversal")
 barLookback = input.int(50, "Bar Lookback", maxval = 250, group = "Outside Reversal")
 
@@ -114,12 +115,16 @@ outLong = (low < low[1]) and (close > high[1]) and ((high - low) >= (avgCandle *
 outShort = (high > high[1]) and (close < low[1]) and ((high - low) >= (avgCandle * barMultiply))
 
 // Labels
-olLabel = label.new(outLong ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_cross, size = size.auto, tooltip = "Bullish Outside Reversal")
-osLabel = label.new(outShort ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_cross, size = size.auto, tooltip = "Bearish Outside Reversal")
+olLabel = label.new(outLong and showOut ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.green, style = label.style_cross, size = size.auto, tooltip = "Bullish Outside Reversal")
+osLabel = label.new(outShort and showOut ? bar_index:na, high, "", yloc = yloc.abovebar, color = color.red, style = label.style_cross, size = size.auto, tooltip = "Bearish Outside Reversal")
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Inside Bar
+// Inputs
+showIn = input(true, "Show Inside Bar Setup", group = "Inside Bar")
 
+// Calculations
 inside = (high <= high[1]) and (low >= low[1])
-         
-inLabel = label.new(inside ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.yellow, style = label.style_cross, size = size.auto, tooltip = "Inside Bar")         
+
+// Labels         
+inLabel = label.new(inside and showIn ? bar_index:na, low, "", yloc = yloc.belowbar, color = color.yellow, style = label.style_cross, size = size.auto, tooltip = "Inside Bar")         
