@@ -2,16 +2,18 @@
 // © Lost-in-Limbo
 
 //@version=5
-indicator("Pivots (Persons and Camarilla)", "Pivots", true)
+indicator("Pivots (CPR, P, C, F)", "Pivots", true)
 // New
 // Inputs
 showCPR = input(true, "Show", group = "Central Pivot Range", inline = "level 0")
-colorPiv = input(color.rgb(33,150,243), "Centre", inline = "level 1", group = "Central Pivot Range")
-colorTB = input(color.rgb(231, 137, 5), "Top & Bottom", inline = "level 1", group = "Central Pivot Range")
+showTom = input(false, "Show Next Day", group = "Central Pivot Range", inline = "level 1")
+colorPiv = input(color.rgb(33,150,243), "Centre", inline = "level 2", group = "Central Pivot Range")
+colorTB = input(color.rgb(231, 137, 5), "Top & Bottom", inline = "level 3", group = "Central Pivot Range")
 
 
 showFloor = input(true, "Show Pivots", group = "Floor Pivots", inline = "level 0")
-showFHist = input(false, "Show History", group = "Floor Pivots", inline = "level 0")
+// previous = input.string(title = 'Pivot Resolution', defval='D', options=['Current', 'D', 'W', 'M', '12M'], group = "Floor Pivots", inline = "level 0")
+showFHist = input(true, "Hide History", group = "Floor Pivots", inline = "level 1")
 // floorlabelsOn = input(false, "Labels", inline = "level 0", group = "Floor Pivots")
 
 showPersons = input(false, "Show Persons Pivots", group = "Persons Pivots")
@@ -20,26 +22,26 @@ showCam = input(false, "Show Pivots", group = "Camarilla Pivots", inline = "leve
 camlabelsOn = input(false, "Labels", inline = "level 0", group = "Camarilla Pivots")
 
 showR1  = input(false, "R1", inline = "level 1", group = "Camarilla Pivots")
-colorR1 = input(color.rgb(255,0,0), "", inline = "level 1", group = "Camarilla Pivots")
+colorR1 = input(color.rgb(229,43,80), "", inline = "level 1", group = "Camarilla Pivots")
 showR2  = input(false, "R2", inline = "level 2", group = "Camarilla Pivots")
-colorR2 = input(color.rgb(255,0,00), "", inline = "level 2", group = "Camarilla Pivots")
+colorR2 = input(color.rgb(229,43,80), "", inline = "level 2", group = "Camarilla Pivots")
 showR3  = input(true, "R3", inline = "level 3", group = "Camarilla Pivots")
-colorR3 = input(color.rgb(255,0,0), "", inline = "level 3", group = "Camarilla Pivots")
+colorR3 = input(color.rgb(229,43,80), "", inline = "level 3", group = "Camarilla Pivots")
 showR4  = input(true, "R4", inline = "level 4", group = "Camarilla Pivots")
-colorR4 = input(color.rgb(56,142,60), "", inline = "level 4", group = "Camarilla Pivots")
+colorR4 = input(color.rgb(41,171,135), "", inline = "level 4", group = "Camarilla Pivots")
 showR5  = input(true, "R5", inline = "level 5", group = "Camarilla Pivots")
 colorR5 = input(color.rgb(0,188,212), "", inline = "level 5", group = "Camarilla Pivots")
 showR6  = input(true, "R6", inline = "level 6", group = "Camarilla Pivots")
 colorR6 = input(color.rgb(0,188,212), "", inline = "level 6", group = "Camarilla Pivots")
 
 showS1  = input(false, "S1", inline = "level 1", group = "Camarilla Pivots")
-colorS1 = input(color.rgb(56,142,60), "", inline = "level 1", group = "Camarilla Pivots")
+colorS1 = input(color.rgb(41,171,135), "", inline = "level 1", group = "Camarilla Pivots")
 showS2  = input(false, "S2", inline = "level 2", group = "Camarilla Pivots")
-colorS2 = input(color.rgb(56,142,60), "", inline = "level 2", group = "Camarilla Pivots")
+colorS2 = input(color.rgb(41,171,135), "", inline = "level 2", group = "Camarilla Pivots")
 showS3  = input(true, "S3", inline = "level 3", group = "Camarilla Pivots")
-colorS3 = input(color.rgb(56,142,60), "", inline = "level 3", group = "Camarilla Pivots")
+colorS3 = input(color.rgb(41,171,135), "", inline = "level 3", group = "Camarilla Pivots")
 showS4  = input(true, "S4", inline = "level 4", group = "Camarilla Pivots")
-colorS4 = input(color.rgb(255,0,0), "", inline = "level 4", group = "Camarilla Pivots")
+colorS4 = input(color.rgb(229,43,80), "", inline = "level 4", group = "Camarilla Pivots")
 showS5  = input(true, "S5", inline = "level 5", group = "Camarilla Pivots")
 colorS5 = input(color.rgb(0,188,212), "", inline = "level 5", group = "Camarilla Pivots")
 showS6  = input(true, "S6", inline = "level 6", group = "Camarilla Pivots")
@@ -57,31 +59,91 @@ lTime = timeframe.isdwm or isHourly ? timenow + 25000000:timenow + 4500000
 startTime = time_tradingday
 isToday = year == year(timenow) and month == month(timenow) and dayofmonth == dayofmonth(timenow)
 
+// Next Day
+tOpen = request.security(syminfo.ticker, "D", open, barmerge.gaps_off, barmerge.lookahead_on)
+tHigh = request.security(syminfo.ticker, "D", high, barmerge.gaps_off, barmerge.lookahead_on)
+tLow = request.security(syminfo.ticker, "D", low, barmerge.gaps_off, barmerge.lookahead_on)
+tClose = request.security(syminfo.ticker, "D", close, barmerge.gaps_off, barmerge.lookahead_on)
 
+// Colors
 // (Conditional operator expression prevents continuous lines on history) - credit I.Carson - https://www.tradingview.com/v/1Td2hIkc/
 colorCPR = dOpen != dOpen[1] ? na:colorTB
 colorPP = dOpen != dOpen[1] ? na:colorPiv
-colorFR = dOpen != dOpen[1] ? na:color.maroon
-colorFS = dOpen != dOpen[1] ? na:color.rgb(13,96,59)
-// CALCULATIONS
+colorTPP = dOpen != dOpen[1] ? na:color.rgb(144,191,249,60)
+colorFR = dOpen != dOpen[1] ? na:color.rgb(229,43,80)
+colorFS = dOpen != dOpen[1] ? na:color.rgb(41,171,135)
+
+// Developing Central Pivots for the next day
+
+tpiv = (tHigh + tLow + tClose) / 3 
+tbc = (tHigh + tLow) / 2
+ttc = (tpiv - tbc) + tpiv
+
+plot(showCPR and showTom ? tpiv:na, "Centre", colorTPP, linewidth = 1, style = plot.style_stepline)
+plot(showCPR and showTom ? ttc:na, "Top", colorTPP, linewidth = 1, style = plot.style_stepline)
+plot(showCPR and showTom ? tbc:na, "Bottom", colorTPP, linewidth = 1, style = plot.style_stepline)
+
+// Calculations/Functions
+
+getData(t, tom) =>
+
+
+    // dHigh := request.security(syminfo.ticker, "D", high[1], barmerge.gaps_off, barmerge.lookahead_on)
+    // dLow := request.security(syminfo.ticker, "D", low[1], barmerge.gaps_off, barmerge.lookahead_on)
+    // dClose := request.security(syminfo.ticker, "D", close[1], barmerge.gaps_off, barmerge.lookahead_on)
+    islast = showFHist ? request.security(syminfo.tickerid, "D", barstate.islast, lookahead=barmerge.lookahead_on) : true
+
+    // Floor
+    // Main Pivot
+    piv = (dHigh + dLow + dClose) / 3
+    bc = (dHigh + dLow) / 2
+    tc = (piv - bc) + piv
+
+
+    // Resistance Levels
+    fr1 = (piv * 2) - dLow
+    fr2 = piv + (dHigh - dLow)
+    fr3 = fr1 + (dHigh - dLow)
+    fr4 = fr3 + (fr2 - fr1)
+
+
+    // Support Levels
+    fs1 = (piv * 2) - dHigh
+    fs2 = piv - (dHigh - dLow)
+    fs3 = fs1 - (dHigh - dLow)
+    fs4 = fs3 - (fs1 - fs2)
+    [islast, fr1, fr2, fr3, fr4, fs1, fs2, fs3, fs4, piv, bc, tc]
+
+[dIsLast, dfr1, dfr2, dfr3, dfr4, dfs1, dfs2, dfs3, dfs4, dpiv, dbc, dtc] = getData("D", true)
+
+
+// line.new(time_tradingday, showFloor and dIsLast ? dfr1:na, time_close, dfr1, xloc.bar_time, extend.none, colorFR, line.style_solid)
+
+
+
 
 // Floor
 // Main Pivot
-piv = (dHigh + dLow + dClose) / 3 
+piv = (dHigh + dLow + dClose) / 3
 bc = (dHigh + dLow) / 2
 tc = (piv - bc) + piv
 
-// Resistance Levels
-fr3 = dHigh + 2 * (piv - dLow)
-fr2 = piv + (dHigh - dLow)
-fr1 = (piv * 2) - dLow
-// Support Levels
-fs1 = (piv * 2) - dHigh
-fs2 = piv - (dHigh - dLow)
-fs3 = dLow - 2 * (dHigh - piv)
+
+// // Resistance Levels
+// fr1 = (piv * 2) - dLow
+// fr2 = piv + (dHigh - dLow)
+// fr3 = fr1 + (dHigh - dLow)
+// fr4 = fr3 + (fr2 - fr1)
 
 
-// Camarilla
+// // Support Levels
+// fs1 = (piv * 2) - dHigh
+// fs2 = piv - (dHigh - dLow)
+// fs3 = fs1 - (dHigh - dLow)
+// fs4 = fs3 - (fs1 - fs2)
+
+
+// // Camarilla
 
 cr1 = dClose + (dHigh - dLow) * 1.1/12
 cr2 = dClose + (dHigh - dLow) * 1.1/6
@@ -113,6 +175,7 @@ truncate(number, decimals) =>
 
 // Central Pivot Range
 
+
 // Plots because I don't know how to code lines properly at the moment to show history etc
 plot(showCPR ? piv:na, "Centre", colorPP, linewidth = 1, style = plot.style_line)
 plot(showCPR ? tc:na, "Top", colorCPR, linewidth = 1, style = plot.style_line)
@@ -122,17 +185,19 @@ plot(showCPR ? bc:na, "Bottom", colorCPR, linewidth = 1, style = plot.style_line
 //     pivl = line.new(startTime, piv, time_close, piv, xloc = xloc.bar_time, color = colorCPR, style = line.style_solid)
 //     bcl = line.new(startTime, bc, time_close, bc, xloc = xloc.bar_time, color = colorPiv, style = line.style_solid)
 //     tcl = line.new(startTime, tc, time_close, tc, xloc = xloc.bar_time, color = colorPiv, style = line.style_solid)
-    // line.delete(pivl[1])
+//     line.delete(pivl[1])
 //     line.delete(bcl[1])
 //     line.delete(tcl[1])
     
-// Floor
-plot(showFloor ? fr1:na, "fr1", colorFR)
-plot(showFloor ? fr2:na, "fr2", colorFR)
-plot(showFloor ? fr3:na, "fr3", colorFR)
-plot(showFloor ? fs1:na, "fs1", colorFS)
-plot(showFloor ? fs2:na, "fs2", colorFS)
-plot(showFloor ? fs3:na, "fs3", colorFS)
+// // Floor
+plot(showFloor and dIsLast ? dfr1:na, "fr1", colorFR)
+plot(showFloor and dIsLast ? dfr2:na, "fr2", colorFR)
+plot(showFloor and dIsLast ? dfr3:na, "fr3", colorFR)
+plot(showFloor and dIsLast ? dfr4:na, "fr4", colorFR)
+plot(showFloor and dIsLast ? dfs1:na, "fs1", colorFS)
+plot(showFloor and dIsLast ? dfs2:na, "fs2", colorFS)
+plot(showFloor and dIsLast ? dfs3:na, "fs3", colorFS)
+plot(showFloor and dIsLast ? dfs4:na, "fs4", colorFS)
     
 // Camarilla
 if showCam
@@ -216,12 +281,12 @@ if showPersons
     ppl = line.new(startTime, pp, time_close, pp, xloc = xloc.bar_time)
     line.delete(ppl[1])
     
-    pr1l = line.new(startTime, pr1, time_close, pr1, xloc = xloc.bar_time, color = color.maroon)
+    pr1l = line.new(startTime, pr1, time_close, pr1, xloc = xloc.bar_time, color = color.rgb(229,43,80))
     line.delete(pr1l[1])
-    pr2l = line.new(startTime, pr2, time_close, pr2, xloc = xloc.bar_time, color = color.maroon)
+    pr2l = line.new(startTime, pr2, time_close, pr2, xloc = xloc.bar_time, color = color.rgb(229,43,80))
     line.delete(pr2l[1])
     
-    ps1l = line.new(startTime, ps1, time_close, ps1, xloc = xloc.bar_time, color = color.green)
+    ps1l = line.new(startTime, ps1, time_close, ps1, xloc = xloc.bar_time, color = color.rgb(41,171,135))
     line.delete(ps1l[1])
-    ps2l = line.new(startTime, ps2, time_close, ps2, xloc = xloc.bar_time, color = color.green)
+    ps2l = line.new(startTime, ps2, time_close, ps2, xloc = xloc.bar_time, color = color.rgb(41,171,135))
     line.delete(ps2l[1])
