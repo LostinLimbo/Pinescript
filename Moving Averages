@@ -2,32 +2,286 @@
 // © Lost-in-Limbo
 
 //@version=5
-indicator("Moving Averages", "MA", true)
+indicator("Moving Averages, BB and Keltner Channel", "MA", true)
 
+
+// Moving Averages
 // Inputs
 
-ma1 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 0", group = "Moving Averages")
-length1 = input(5, "Length", inline = "level 0", group = "Moving Averages")
-src1 = input(close, "Source", inline = "level 0", group = "Moving Averages")
+// SMA's
 
-ma2 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 1", group = "Moving Averages")
-length2 = input(8, "Length", inline = "level 1", group = "Moving Averages")
-src2 = input(close, "Source", inline = "level 1", group = "Moving Averages")
+info = input.string("", "Death Cross and Golden Cross only available with the default SMA's for 1 and 3", group = "SMA")
+showDeathCross = input(true, "Show Death/Gold Cross", group = "SMA")
+ma1 = input(true, "", inline = "level 0", group = "SMA")
+length1 = input(50, "Length", inline = "level 0", group = "SMA")
+src1 = input(close, "Source", inline = "level 0", group = "SMA")
 
-ma3 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 1", group = "Moving Averages")
-length3 = input(13, "Length", inline = "level 1", group = "Moving Averages")
-src3 = input(close, "Source", inline = "level 1", group = "Moving Averages")
+ma2 = input(true, "", inline = "level 1", group = "SMA")
+length2 = input(100, "Length", inline = "level 1", group = "SMA")
+src2 = input(close, "Source", inline = "level 1", group = "SMA")
 
-ma4 = input.string("sma", "Type", options = ["sma", "ema", "hma"], inline = "level 1", group = "Moving Averages")
-length4 = input(21, "Length", inline = "level 1", group = "Moving Averages")
-src4 = input(close, "Source", inline = "level 1", group = "Moving Averages")
+ma3 = input(true, "", inline = "level 2", group = "SMA")
+length3 = input(200, "Length", inline = "level 2", group = "SMA")
+src3 = input(close, "Source", inline = "level 2", group = "SMA")
 
+ma10 = input(false, "", inline = "level 3", group = "SMA")
+length10 = input(150, "Length", inline = "level 3", group = "SMA")
+src10 = input(close, "Source", inline = "level 3", group = "SMA")
+
+
+// EMA's
+info2 = input.string("", "Crosses can be marked for first two EMA's and last two EMA's", group = "EMA")
+showCross1 = input(true, "Show Cross", group = "EMA")
+ma4 = input(true, "", inline = "level 0", group = "EMA")
+length4 = input(5, "Length", inline = "level 0", group = "EMA")
+src4 = input(close, "Source", inline = "level 0", group = "EMA")
+
+ma5 = input(true, "", inline = "level 1", group = "EMA")
+length5 = input(8, "Length", inline = "level 1", group = "EMA")
+src5 = input(close, "Source", inline = "level 1", group = "EMA")
+
+showCross2 = input(false, "Show Cross 2", group = "EMA")
+ma6 = input(true, "", inline = "level 2", group = "EMA")
+length6 = input(13, "Length", inline = "level 2", group = "EMA")
+src6 = input(close, "Source", inline = "level 2", group = "EMA")
+
+ma7 = input(true, "", inline = "level 3", group = "EMA")
+length7 = input(21, "Length", inline = "level 3", group = "EMA")
+src7 = input(close, "Source", inline = "level 3", group = "EMA")
+
+
+
+ma8 = input(true, "", inline = "level 0", group = "HMA")
+length8 = input(8, "Length", inline = "level 0", group = "HMA")
+src8 = input(close, "Source", inline = "level 0", group = "HMA")
+
+ma9 = input(true, "", inline = "level 1", group = "HMA")
+length9 = input(13, "Length", inline = "level 1", group = "HMA")
+src9 = input(close, "Source", inline = "level 1", group = "HMA")
 // Variables
 
+avg1 = ta.sma(src1, length1)
+avg2 = ta.sma(src2, length2)
+avg3 = ta.sma(src3, length3)
+avg10 = ta.sma(src10, length10)
+avg4 = ta.ema(src4, length4)
+avg5 = ta.ema(src5, length5)
+avg6 = ta.ema(src6, length6)
+avg7 = ta.ema(src7, length7)
+avg8 = ta.hma(src8, length8)
+avg9 = ta.hma(src9, length9)
+
+colorChange = avg8[1] > avg8 and avg9[1] > avg9
+
+cross1 = ta.cross(avg4, avg5)
+cross2 = ta.cross(avg6, avg7)
+cross3 = ta.cross(avg8, avg9)
+deathCross = length1 == 50 and length3 == 200 ? ta.crossunder(avg1, avg3):na
+goldCross = length1 == 50 and length3 == 200 ? ta.crossover(avg1, avg3):na
 
 
+// Plots
 
-plot(ma1 == "sma" ? ta.sma(src1, length1): ma1 == "ema" ? ta.ema(src1, length1): ma1 == "hma" ? ta.hma(src1, length1):na)
-plot(ma2 == "sma" ? ta.sma(src2, length2): ma2 == "ema" ? ta.ema(src2, length2): ma2 == "hma" ? ta.hma(src2, length2):na)
-plot(ma3 == "sma" ? ta.sma(src3, length3): ma3 == "ema" ? ta.ema(src3, length3): ma3 == "hma" ? ta.hma(src3, length3):na)
-plot(ma4 == "sma" ? ta.sma(src4, length4): ma4 == "ema" ? ta.ema(src4, length4): ma4 == "hma" ? ta.hma(src4, length4):na)
+// Averages
+
+plot(ma1 ? avg1:na, "avg1", color.rgb(0, 188, 212))
+plot(ma2 ? avg2:na, "avg2", color.rgb(0, 150, 136))
+plot(ma3 ? avg3:na, "avg3", color.rgb(233, 30, 99))
+plot(ma10 ? avg10:na, "avg10", color.rgb(218, 160, 109))
+plot(ma4 ? avg4:na, "avg4", color.rgb(129, 199, 132))
+plot(ma5 ? avg5:na, "avg5", color.rgb(255, 235, 59))
+plot(ma6 ? avg6:na, "avg6", color.rgb(186, 104, 200), linewidth = 2)
+plot(ma7 ? avg7:na, "avg7", color.rgb(244, 67, 54))
+plot(ma8 ? avg8:na, "avg8", colorChange ? color.rgb(33, 150, 243):color.rgb(0, 188, 212), 2)
+plot(ma9 ? avg9:na, "avg9", colorChange ? color.rgb(33, 150, 243):color.rgb(0, 188, 212), 2, plot.style_circles)
+
+// Crossed Lines
+plot(showCross1 and cross1 ? avg4:na, "EMA Cross", color.orange, style = plot.style_cross, linewidth = 4)
+plot(showCross2 and cross2 ? avg6:na, "EMA Cross 2", color.orange, style = plot.style_circles, linewidth = 4)
+plot(cross3 ? avg9:na, "HMA Cross", color.yellow, style = plot.style_cross, linewidth = 4)
+plotchar(showDeathCross and deathCross ? avg1:na, "Death Cross", char = "☠", location = location.absolute)
+plotchar(showDeathCross and goldCross ? avg1:na, "Golden Cross", char = "⭐", location = location.absolute)
+
+
+// Bollinger Bands
+
+// Inputs
+bb = input(title = "Show BB", defval = true, group = "Bollinger Bands")
+bbLength = input.int(21, minval = 1, title = "BB Length", group = "Bollinger Bands")
+bbSource = input(close, title = "Source", group = "Bollinger Bands")
+bbMult = input.float(2.0, minval = 0.001, maxval = 500, title = "StdDev", group = "Bollinger Bands")
+bbOffset = input.int(0, "Offset", minval = -500, maxval = 500, group = "Bollinger Bands")
+
+// Calculations
+basis = ta.sma(bbSource, bbLength)
+dev = bbMult * ta.stdev(bbSource, bbLength)
+plot(bb and basis and bbLength ? basis :na , title="BB", color=color.rgb(255, 152, 0, 50), linewidth=2)
+upperBB = basis + dev
+lowerBB = basis - dev
+
+
+p1 = plot(bb ? upperBB:na, "Upper BB",color = color.rgb(255, 152, 0, 70),linewidth = 1, offset = bbOffset)
+p2 = plot(bb ? lowerBB:na, "Lower BB",color = color.rgb(255, 152, 0, 70),linewidth = 1, offset = bbOffset)
+fill(p1, p2, title = "BB Background", color = color.rgb(255, 255, 255, 95)) 
+
+// Keltner Channel
+
+kc = input(true, "Show Keltner Channel", group = "Keltner Channel")
+lengthK = input.int(21, minval = 1, group = "Keltner Channel")
+srcK = input(close, title = "Source", group = "Keltner Channel")
+multK = input(2.0, "Multiplier", group = "Keltner Channel")
+exp = input(true, "Use Exponential MA", group = "Keltner Channel")
+BandsStyle = input.string("Average True Range", options = ["Average True Range", "True Range", "Range"], title = "Bands Style", group = "Keltner Channel")
+atrlength = input(10, "ATR Length", group = "Keltner Channel")
+
+// Functions
+esma(source, length) =>
+	s = ta.sma(source, length)
+	e = ta.ema(source, length)
+	exp ? e : s
+
+// atr choice and bands	
+ma = esma(srcK, lengthK)
+rangema = BandsStyle == "True Range" ? ta.tr(true) : BandsStyle == "Average True Range" ? ta.atr(atrlength) : ta.rma(high - low, lengthK)
+upperK = ma + rangema * multK
+lowerK = ma - rangema * multK
+
+plot(kc ? ma:na, color = color.rgb(244, 67, 54, 70), title = "KC", linewidth = 2)
+u = plot(kc ? upperK:na, color = color.rgb(244, 67, 54, 70), title = "Upper KC")
+l = plot(kc ? lowerK:na, color = color.rgb(244, 67, 54, 70), title = "Lower KC")
+fill(u, l, color = color.rgb(250, 250, 250, 95), title = "KC Background")
+
+
+// RSI Swing Indicator - copy of RSI SWing Indicator V2 - credit to BalintDavid - https://mozilla.org/MPL/2.0/
+
+// RSI Settings for user
+showRSI = input(true, "Show RSI Swing", group = "RSI Swing")
+rsiSource = input(title='RSI Source', defval=close, group = "RSI Swing")
+rsiLength = input(title='RSI Length', defval=4, group = "RSI Swing")
+rsiOverbought = input.int(title='RSI Overbought', defval=70, minval=51, maxval=100, group = "RSI Swing")
+rsiOvesold = input.int(title='RSI Oversold', defval=30, minval=1, maxval=49, group = "RSI Swing")
+
+// RSI value based on inbuilt RSI
+rsiValue = showRSI ? ta.rsi(rsiSource, rsiLength):na
+
+// Get the current state
+isOverbought = rsiValue >= rsiOverbought
+isOversold = rsiValue <= rsiOvesold
+
+// State of the last extreme 0 for initialization, 1 = overbought, 2 = oversold
+var laststate = 0
+
+// Highest and Lowest prices since the last state change
+var hh = low
+var ll = high
+
+// Labels
+var label labelll = na
+var label labelhh = na
+
+// Swing lines
+var line line_up = na
+var line line_down = na
+
+var last_actual_label_hh_price = 0.0
+var last_actual_label_ll_price = 0.0
+
+
+// FUNCTIONS
+obLabelText() =>
+    if last_actual_label_hh_price < high
+        'HH'
+    else
+        'LH'
+//plot(last_actual_label_hh_price)
+osLabelText() =>
+    if last_actual_label_ll_price < low
+        'HL'
+    else
+        'LL'
+
+// Create oversold or overbought label
+createOverBoughtLabel(isIt) =>
+    if isIt
+        label.new(x=bar_index, y=na, yloc=yloc.abovebar, style=label.style_label_down, color=color.red, size=size.tiny, text=obLabelText())
+    else
+        label.new(x=bar_index, y=na, yloc=yloc.belowbar, style=label.style_label_up, color=color.green, size=size.tiny, text=osLabelText())
+
+
+// Move the oversold swing and label
+moveOversoldLabel() =>
+    label.set_x(labelll, bar_index)
+    label.set_y(labelll, low)
+    label.set_text(labelll, osLabelText())
+    line.set_x1(line_down, bar_index)
+    line.set_y1(line_down, low)
+
+moveOverBoughtLabel() =>
+    label.set_x(labelhh, bar_index)
+    label.set_y(labelhh, high)
+    label.set_text(labelhh, obLabelText())
+    line.set_x1(line_up, bar_index)
+    line.set_y1(line_up, high)
+
+// We go from oversold straight to overbought NEW DRAWINGS CREATED HERE
+if laststate == 2 and isOverbought
+    hh := high
+    labelhh := createOverBoughtLabel(true)
+    last_actual_label_ll_price := label.get_y(labelll)
+    labelll_ts = label.get_x(labelll)
+    labelll_price = label.get_y(labelll)
+    line_up := line.new(x1=bar_index, y1=high, x2=labelll_ts, y2=labelll_price, width=1)
+    line_up
+
+// We go from overbought straight to oversold  NEW DRAWINGS CREATED HERE
+if laststate == 1 and isOversold
+    ll := low
+    labelll := createOverBoughtLabel(false)
+    last_actual_label_hh_price := label.get_y(labelhh)
+    labelhh_ts = label.get_x(labelhh)
+    labelhh_price = label.get_y(labelhh)
+    line_down := line.new(x1=bar_index, y1=high, x2=labelhh_ts, y2=labelhh_price, width=1)
+    line_down
+
+
+// If we are overbought
+if isOverbought
+    if high >= hh
+        hh := high
+        moveOverBoughtLabel()
+    laststate := 1
+    laststate
+
+// If we are oversold
+if isOversold
+    if low <= ll
+        ll := low
+        moveOversoldLabel()
+    laststate := 2
+    laststate
+
+
+// If last state was overbought and we are overbought
+if laststate == 1 and isOverbought
+    if hh <= high
+        hh := high
+        moveOverBoughtLabel()
+
+//If we are oversold and the last state was oversold, move the drawings to the lowest price
+if laststate == 2 and isOversold
+    if low <= ll
+        ll := low
+        moveOversoldLabel()
+
+
+// If last state was overbought
+if laststate == 1
+    if hh <= high
+        hh := high
+        moveOverBoughtLabel()
+
+// If last stare was oversold
+if laststate == 2
+    if ll >= low
+        ll := low
+        moveOversoldLabel()
