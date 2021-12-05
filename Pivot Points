@@ -5,47 +5,49 @@
 indicator("Pivots (CPR, P, C, F)", "Pivots", true)
 // New
 // Inputs
-showCPR = input(true, "Show", group = "Central Pivot Range", inline = "level 0")
+showCPR = input(true, "Show Pivot", group = "Central Pivot Range", inline = "level 0")
 showTom = input(false, "Show Next Day", group = "Central Pivot Range", inline = "level 1")
 colorPiv = input(color.rgb(33,150,243), "Centre", inline = "level 2", group = "Central Pivot Range")
-colorTB = input(color.rgb(231, 137, 5), "Top & Bottom", inline = "level 3", group = "Central Pivot Range")
+colorTB = input(color.rgb(231, 137, 5), "Top & Bottom", inline = "level 2", group = "Central Pivot Range")
 
 
 showFloor = input(true, "Show Pivots", group = "Floor Pivots", inline = "level 0")
-// previous = input.string(title = 'Pivot Resolution', defval='D', options=['Current', 'D', 'W', 'M', '12M'], group = "Floor Pivots", inline = "level 0")
 showFHist = input(true, "Hide History", group = "Floor Pivots", inline = "level 1")
-// floorlabelsOn = input(false, "Labels", inline = "level 0", group = "Floor Pivots")
 
-showPersons = input(false, "Show Persons Pivots", group = "Persons Pivots")
+
+showPersons = input(false, "Show Persons Pivots", group = "Persons Pivots", inline = "level 0")
+
+showPHist = input(true, "Hide History", group = "Persons Pivots", inline = "level 1")
 
 showCam = input(false, "Show Pivots", group = "Camarilla Pivots", inline = "level 0")
+showCHist = input(true, "Hide History", group = "Camarilla Pivots", inline = "level 0")
 camlabelsOn = input(false, "Labels", inline = "level 0", group = "Camarilla Pivots")
 
-showR1  = input(false, "R1", inline = "level 1", group = "Camarilla Pivots")
-colorR1 = input(color.rgb(229,43,80), "", inline = "level 1", group = "Camarilla Pivots")
-showR2  = input(false, "R2", inline = "level 2", group = "Camarilla Pivots")
-colorR2 = input(color.rgb(229,43,80), "", inline = "level 2", group = "Camarilla Pivots")
-showR3  = input(true, "R3", inline = "level 3", group = "Camarilla Pivots")
-colorR3 = input(color.rgb(229,43,80), "", inline = "level 3", group = "Camarilla Pivots")
-showR4  = input(true, "R4", inline = "level 4", group = "Camarilla Pivots")
-colorR4 = input(color.rgb(41,171,135), "", inline = "level 4", group = "Camarilla Pivots")
-showR5  = input(true, "R5", inline = "level 5", group = "Camarilla Pivots")
-colorR5 = input(color.rgb(0,188,212), "", inline = "level 5", group = "Camarilla Pivots")
-showR6  = input(true, "R6", inline = "level 6", group = "Camarilla Pivots")
-colorR6 = input(color.rgb(0,188,212), "", inline = "level 6", group = "Camarilla Pivots")
+showR1  = input(false, "R1", inline = "level 2", group = "Camarilla Pivots")
+colorR1 = input(color.rgb(229,43,80), "", inline = "level 2", group = "Camarilla Pivots")
+showR2  = input(false, "R2", inline = "level 3", group = "Camarilla Pivots")
+colorR2 = input(color.rgb(229,43,80), "", inline = "level 3", group = "Camarilla Pivots")
+showR3  = input(true, "R3", inline = "level 4", group = "Camarilla Pivots")
+colorR3 = input(color.rgb(229,43,80), "", inline = "level 4", group = "Camarilla Pivots")
+showR4  = input(true, "R4", inline = "level 5", group = "Camarilla Pivots")
+colorR4 = input(color.rgb(41,171,135), "", inline = "level 5", group = "Camarilla Pivots")
+showR5  = input(true, "R5", inline = "level 6", group = "Camarilla Pivots")
+colorR5 = input(color.rgb(0,188,212), "", inline = "level 6", group = "Camarilla Pivots")
+showR6  = input(true, "R6", inline = "level 7", group = "Camarilla Pivots")
+colorR6 = input(color.rgb(0,188,212), "", inline = "level 7", group = "Camarilla Pivots")
 
-showS1  = input(false, "S1", inline = "level 1", group = "Camarilla Pivots")
-colorS1 = input(color.rgb(41,171,135), "", inline = "level 1", group = "Camarilla Pivots")
-showS2  = input(false, "S2", inline = "level 2", group = "Camarilla Pivots")
-colorS2 = input(color.rgb(41,171,135), "", inline = "level 2", group = "Camarilla Pivots")
-showS3  = input(true, "S3", inline = "level 3", group = "Camarilla Pivots")
-colorS3 = input(color.rgb(41,171,135), "", inline = "level 3", group = "Camarilla Pivots")
-showS4  = input(true, "S4", inline = "level 4", group = "Camarilla Pivots")
-colorS4 = input(color.rgb(229,43,80), "", inline = "level 4", group = "Camarilla Pivots")
-showS5  = input(true, "S5", inline = "level 5", group = "Camarilla Pivots")
-colorS5 = input(color.rgb(0,188,212), "", inline = "level 5", group = "Camarilla Pivots")
-showS6  = input(true, "S6", inline = "level 6", group = "Camarilla Pivots")
-colorS6 = input(color.rgb(0,188,212), "", inline = "level 6", group = "Camarilla Pivots")
+showS1  = input(false, "S1", inline = "level 2", group = "Camarilla Pivots")
+colorS1 = input(color.rgb(41,171,135), "", inline = "level 2", group = "Camarilla Pivots")
+showS2  = input(false, "S2", inline = "level 3", group = "Camarilla Pivots")
+colorS2 = input(color.rgb(41,171,135), "", inline = "level 3", group = "Camarilla Pivots")
+showS3  = input(true, "S3", inline = "level 4", group = "Camarilla Pivots")
+colorS3 = input(color.rgb(41,171,135), "", inline = "level 4", group = "Camarilla Pivots")
+showS4  = input(true, "S4", inline = "level 5", group = "Camarilla Pivots")
+colorS4 = input(color.rgb(229,43,80), "", inline = "level 5", group = "Camarilla Pivots")
+showS5  = input(true, "S5", inline = "level 6", group = "Camarilla Pivots")
+colorS5 = input(color.rgb(0,188,212), "", inline = "level 6", group = "Camarilla Pivots")
+showS6  = input(true, "S6", inline = "level 7", group = "Camarilla Pivots")
+colorS6 = input(color.rgb(0,188,212), "", inline = "level 7", group = "Camarilla Pivots")
 
 
 // Variable
@@ -55,9 +57,12 @@ dHigh = request.security(syminfo.ticker, "D", high[1], barmerge.gaps_off, barmer
 dLow = request.security(syminfo.ticker, "D", low[1], barmerge.gaps_off, barmerge.lookahead_on)
 dClose = request.security(syminfo.ticker, "D", close[1], barmerge.gaps_off, barmerge.lookahead_on)
 isHourly = timeframe.isminutes and timeframe.multiplier >= 60
-lTime = timeframe.isdwm or isHourly ? timenow + 25000000:timenow + 4500000
+// lTime = timeframe.isdwm or isHourly ? timenow + 25000000:timenow + 4500000
 startTime = time_tradingday
 isToday = year == year(timenow) and month == month(timenow) and dayofmonth == dayofmonth(timenow)
+t = time_close - 25200000
+sessionReg = syminfo.session == session.regular
+sessionExtend = syminfo.session == session.extended
 
 // Next Day
 tOpen = request.security(syminfo.ticker, "D", open, barmerge.gaps_off, barmerge.lookahead_on)
@@ -66,12 +71,26 @@ tLow = request.security(syminfo.ticker, "D", low, barmerge.gaps_off, barmerge.lo
 tClose = request.security(syminfo.ticker, "D", close, barmerge.gaps_off, barmerge.lookahead_on)
 
 // Colors
+
 // (Conditional operator expression prevents continuous lines on history) - credit I.Carson - https://www.tradingview.com/v/1Td2hIkc/
 colorCPR = dOpen != dOpen[1] ? na:colorTB
 colorPP = dOpen != dOpen[1] ? na:colorPiv
 colorTPP = dOpen != dOpen[1] ? na:color.rgb(144,191,249,60)
 colorFR = dOpen != dOpen[1] ? na:color.rgb(229,43,80)
 colorFS = dOpen != dOpen[1] ? na:color.rgb(41,171,135)
+colorCR1 = dOpen != dOpen[1] ? na:colorR1
+colorCR2 = dOpen != dOpen[1] ? na:colorR2
+colorCR3 = dOpen != dOpen[1] ? na:colorR3
+colorCR4 = dOpen != dOpen[1] ? na:colorR4
+colorCR5 = dOpen != dOpen[1] ? na:colorR5
+colorCR6 = dOpen != dOpen[1] ? na:colorR6
+colorCS1 = dOpen != dOpen[1] ? na:colorS1
+colorCS2 = dOpen != dOpen[1] ? na:colorS2
+colorCS3 = dOpen != dOpen[1] ? na:colorS3
+colorCS4 = dOpen != dOpen[1] ? na:colorS4
+colorCS5 = dOpen != dOpen[1] ? na:colorS5
+colorCS6 = dOpen != dOpen[1] ? na:colorS6
+
 
 // Developing Central Pivots for the next day
 
@@ -83,22 +102,21 @@ plot(showCPR and showTom ? tpiv:na, "Centre", colorTPP, linewidth = 1, style = p
 plot(showCPR and showTom ? ttc:na, "Top", colorTPP, linewidth = 1, style = plot.style_stepline)
 plot(showCPR and showTom ? tbc:na, "Bottom", colorTPP, linewidth = 1, style = plot.style_stepline)
 
+// Developing/Next Day Camarilla R3 & S3 Pivots
+
+
 // Calculations/Functions
+// Floor
+getDataF(t, tom) =>
 
-getData(t, tom) =>
-
-
-    // dHigh := request.security(syminfo.ticker, "D", high[1], barmerge.gaps_off, barmerge.lookahead_on)
-    // dLow := request.security(syminfo.ticker, "D", low[1], barmerge.gaps_off, barmerge.lookahead_on)
-    // dClose := request.security(syminfo.ticker, "D", close[1], barmerge.gaps_off, barmerge.lookahead_on)
-    islast = showFHist ? request.security(syminfo.tickerid, "D", barstate.islast, lookahead=barmerge.lookahead_on) : true
+    islastF = showFHist ? request.security(syminfo.tickerid, "D", barstate.islast, lookahead=barmerge.lookahead_on) : true
+    
 
     // Floor
-    // Main Pivot
+    // Main Pivot - for calculations
     piv = (dHigh + dLow + dClose) / 3
     bc = (dHigh + dLow) / 2
     tc = (piv - bc) + piv
-
 
     // Resistance Levels
     fr1 = (piv * 2) - dLow
@@ -106,58 +124,44 @@ getData(t, tom) =>
     fr3 = fr1 + (dHigh - dLow)
     fr4 = fr3 + (fr2 - fr1)
 
-
     // Support Levels
     fs1 = (piv * 2) - dHigh
     fs2 = piv - (dHigh - dLow)
     fs3 = fs1 - (dHigh - dLow)
     fs4 = fs3 - (fs1 - fs2)
-    [islast, fr1, fr2, fr3, fr4, fs1, fs2, fs3, fs4, piv, bc, tc]
+    [islastF, fr1, fr2, fr3, fr4, fs1, fs2, fs3, fs4]
 
-[dIsLast, dfr1, dfr2, dfr3, dfr4, dfs1, dfs2, dfs3, dfs4, dpiv, dbc, dtc] = getData("D", true)
+[dIsLastF, dfr1, dfr2, dfr3, dfr4, dfs1, dfs2, dfs3, dfs4] = getDataF("D", true)
 
+// Camarilla
 
-// line.new(time_tradingday, showFloor and dIsLast ? dfr1:na, time_close, dfr1, xloc.bar_time, extend.none, colorFR, line.style_solid)
-
-
-
+getDataC(t, tom) =>
+    
+    islastC = showCHist ? request.security(syminfo.tickerid, "D", barstate.islast, lookahead=barmerge.lookahead_on) : true
+    
+    cr1 = dClose + (dHigh - dLow) * 1.1/12
+    cr2 = dClose + (dHigh - dLow) * 1.1/6
+    cr3 = dClose + (dHigh - dLow) * 1.1/4
+    cr4 = dClose + (dHigh - dLow) * 1.1/2
+    cr5 = cr4 + 1.168 * (cr4 - cr3)
+    cr6 = (dHigh/dLow) * dClose
+    
+    cs1 = dClose - (dHigh - dLow) * 1.1/12
+    cs2 = dClose - (dHigh - dLow) * 1.1/6
+    cs3 = dClose - (dHigh - dLow) * 1.1/4
+    cs4 = dClose - (dHigh - dLow) * 1.1/2
+    cs5 = cs4 - 1.168 * (cs3 - cs4)
+    cs6 = dClose - (cr6 - dClose)
+    [islastC, cr1, cr2, cr3, cr4, cr5, cr6, cs1, cs2, cs3, cs4, cs5, cs6]
+    
+[dIsLastC, dcr1, dcr2, dcr3, dcr4, dcr5, dcr6, dcs1, dcs2, dcs3, dcs4, dcs5, dcs6] = getDataC("D", true)
+    
 
 // Floor
 // Main Pivot
 piv = (dHigh + dLow + dClose) / 3
 bc = (dHigh + dLow) / 2
 tc = (piv - bc) + piv
-
-
-// // Resistance Levels
-// fr1 = (piv * 2) - dLow
-// fr2 = piv + (dHigh - dLow)
-// fr3 = fr1 + (dHigh - dLow)
-// fr4 = fr3 + (fr2 - fr1)
-
-
-// // Support Levels
-// fs1 = (piv * 2) - dHigh
-// fs2 = piv - (dHigh - dLow)
-// fs3 = fs1 - (dHigh - dLow)
-// fs4 = fs3 - (fs1 - fs2)
-
-
-// // Camarilla
-
-cr1 = dClose + (dHigh - dLow) * 1.1/12
-cr2 = dClose + (dHigh - dLow) * 1.1/6
-cr3 = dClose + (dHigh - dLow) * 1.1/4
-cr4 = dClose + (dHigh - dLow) * 1.1/2
-cr5 = cr4 + 1.168 * (cr4 - cr3)
-cr6 = (dHigh/dLow) * dClose
-
-cs1 = dClose - (dHigh - dLow) * 1.1/12
-cs2 = dClose - (dHigh - dLow) * 1.1/6
-cs3 = dClose - (dHigh - dLow) * 1.1/4
-cs4 = dClose - (dHigh - dLow) * 1.1/2
-cs5 = cs4 - 1.168 * (cs3 - cs4)
-cs6 = dClose - (cr6 - dClose)
 
 // Persons
 
@@ -181,112 +185,175 @@ plot(showCPR ? piv:na, "Centre", colorPP, linewidth = 1, style = plot.style_line
 plot(showCPR ? tc:na, "Top", colorCPR, linewidth = 1, style = plot.style_line)
 plot(showCPR ? bc:na, "Bottom", colorCPR, linewidth = 1, style = plot.style_line)
 
-// if showCPR
-//     pivl = line.new(startTime, piv, time_close, piv, xloc = xloc.bar_time, color = colorCPR, style = line.style_solid)
-//     bcl = line.new(startTime, bc, time_close, bc, xloc = xloc.bar_time, color = colorPiv, style = line.style_solid)
-//     tcl = line.new(startTime, tc, time_close, tc, xloc = xloc.bar_time, color = colorPiv, style = line.style_solid)
-//     line.delete(pivl[1])
-//     line.delete(bcl[1])
-//     line.delete(tcl[1])
-    
 // // Floor
-plot(showFloor and dIsLast ? dfr1:na, "fr1", colorFR)
-plot(showFloor and dIsLast ? dfr2:na, "fr2", colorFR)
-plot(showFloor and dIsLast ? dfr3:na, "fr3", colorFR)
-plot(showFloor and dIsLast ? dfr4:na, "fr4", colorFR)
-plot(showFloor and dIsLast ? dfs1:na, "fs1", colorFS)
-plot(showFloor and dIsLast ? dfs2:na, "fs2", colorFS)
-plot(showFloor and dIsLast ? dfs3:na, "fs3", colorFS)
-plot(showFloor and dIsLast ? dfs4:na, "fs4", colorFS)
-    
+plot(showFloor and dIsLastF ? dfr1:na, "fr1", colorFR)
+plot(showFloor and dIsLastF ? dfr2:na, "fr2", colorFR)
+plot(showFloor and dIsLastF ? dfr3:na, "fr3", colorFR)
+plot(showFloor and dIsLastF ? dfr4:na, "fr4", colorFR)
+plot(showFloor and dIsLastF ? dfs1:na, "fs1", colorFS)
+plot(showFloor and dIsLastF ? dfs2:na, "fs2", colorFS)
+plot(showFloor and dIsLastF ? dfs3:na, "fs3", colorFS)
+plot(showFloor and dIsLastF ? dfs4:na, "fs4", colorFS)
+
 // Camarilla
-if showCam
+plot(showCam and sessionExtend and dIsLastC ? dcr1:na, "cr1", showR1 ? colorCR1:na)
+plot(showCam and sessionExtend and dIsLastC ? dcr2:na, "cr2", showR2 ? colorCR2:na)
+plot(showCam and sessionExtend and dIsLastC ? dcr3:na, "cr3", showR3 ? colorCR3:na)
+plot(showCam and sessionExtend and dIsLastC ? dcr4:na, "cr4", showR4 ? colorCR4:na)
+plot(showCam and sessionExtend and dIsLastC ? dcr5:na, "cr5", showR5 ? colorCR5:na)
+plot(showCam and sessionExtend and dIsLastC ? dcr6:na, "cr6", showR6 ? colorCR6:na)
+plot(showCam and sessionExtend and dIsLastC ? dcs1:na, "cs1", showS1 ? colorCS1:na)
+plot(showCam and sessionExtend and dIsLastC ? dcs2:na, "cs2", showS2 ? colorCS2:na)
+plot(showCam and sessionExtend and dIsLastC ? dcs3:na, "cs3", showS3 ? colorCS3:na)
+plot(showCam and sessionExtend and dIsLastC ? dcs4:na, "cs4", showS4 ? colorCS4:na)
+plot(showCam and sessionExtend and dIsLastC ? dcs5:na, "cs5", showS5 ? colorCS5:na)
+plot(showCam and sessionExtend and dIsLastC ? dcs6:na, "cs6", showS6 ? colorCS6:na)
+
+cr1lb = label.new(timenow, showR1 and camlabelsOn ? dcr1:na, text = "                     R1 - " + str.tostring(truncate(dcr1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCR1, size = size.small, style = label.style_none)    
+label.delete(cr1lb[1])
+cr2lb = label.new(timenow, showR2 and camlabelsOn ? dcr2:na, text = "                     R2 - " + str.tostring(truncate(dcr2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCR2, size = size.small, style = label.style_none)    
+label.delete(cr2lb[1])
+cr3lb = label.new(timenow, showR3 and camlabelsOn ? dcr3:na, text = "                     R3 - " + str.tostring(truncate(dcr3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCR3, size = size.small, style = label.style_none)    
+label.delete(cr3lb[1])
+cr4lb = label.new(timenow, showR4 and camlabelsOn ? dcr4:na, text = "                     R4 - " + str.tostring(truncate(dcr4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCR4, size = size.small, style = label.style_none)    
+label.delete(cr4lb[1])
+cr5lb = label.new(timenow, showR5 and camlabelsOn ? dcr5:na, text = "                     R5 - " + str.tostring(truncate(dcr5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCR5, size = size.small, style = label.style_none)    
+label.delete(cr5lb[1])
+cr6lb = label.new(timenow, showR6 and camlabelsOn ? dcr6:na, text = "                     R6 - " + str.tostring(truncate(dcr6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCR6, size = size.small, style = label.style_none)    
+label.delete(cr6lb[1])
+cs1lb = label.new(timenow, showS1 and camlabelsOn ? dcs1:na, text = "                     S1 - " + str.tostring(truncate(dcs1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCS1, size = size.small, style = label.style_none)    
+label.delete(cs1lb[1])
+cs2lb = label.new(timenow, showS2 and camlabelsOn ? dcs2:na, text = "                     S2 - " + str.tostring(truncate(dcs2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCS2, size = size.small, style = label.style_none)    
+label.delete(cs2lb[1])
+cs3lb = label.new(timenow, showS3 and camlabelsOn ? dcs3:na, text = "                     S3 - " + str.tostring(truncate(dcs3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCS3, size = size.small, style = label.style_none)    
+label.delete(cs3lb[1])
+cs4lb = label.new(timenow, showS4 and camlabelsOn ? dcs4:na, text = "                     S4 - " + str.tostring(truncate(dcs4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCS4, size = size.small, style = label.style_none)    
+label.delete(cs4lb[1])
+cs5lb = label.new(timenow, showS5 and camlabelsOn ? dcs5:na, text = "                     S5 - " + str.tostring(truncate(dcs5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCS5, size = size.small, style = label.style_none)    
+label.delete(cs5lb[1])
+cs6lb = label.new(timenow, showS6 and camlabelsOn ? dcs6:na, text = "                     S6 - " + str.tostring(truncate(dcs6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_left, textcolor = colorCS6, size = size.small, style = label.style_none)    
+label.delete(cs6lb[1])
+
+ 
+// Cam Daily Pivot Calculations
+ 
+cr1 = dClose + (dHigh - dLow) * 1.1/12
+cr2 = dClose + (dHigh - dLow) * 1.1/6
+cr3 = dClose + (dHigh - dLow) * 1.1/4
+cr4 = dClose + (dHigh - dLow) * 1.1/2
+cr5 = cr4 + 1.168 * (cr4 - cr3)
+cr6 = (dHigh/dLow) * dClose
+    
+cs1 = dClose - (dHigh - dLow) * 1.1/12
+cs2 = dClose - (dHigh - dLow) * 1.1/6
+cs3 = dClose - (dHigh - dLow) * 1.1/4
+cs4 = dClose - (dHigh - dLow) * 1.1/2
+cs5 = cs4 - 1.168 * (cs3 - cs4)
+cs6 = dClose - (cr6 - dClose)
+
+// Cam Weekly Pivot Calculations
+
+wOpen = request.security(syminfo.ticker, "W", open[1], barmerge.gaps_off, barmerge.lookahead_on)
+wHigh = request.security(syminfo.ticker, "W", high[1], barmerge.gaps_off, barmerge.lookahead_on)
+wLow = request.security(syminfo.ticker, "W", low[1], barmerge.gaps_off, barmerge.lookahead_on)
+wClose = request.security(syminfo.ticker, "W", close[1], barmerge.gaps_off, barmerge.lookahead_on)
+
+// Cam Monthly Pivot Calculations
+ 
+mOpen = request.security(syminfo.ticker, "M", open[1], barmerge.gaps_off, barmerge.lookahead_on)
+mHigh = request.security(syminfo.ticker, "M", high[1], barmerge.gaps_off, barmerge.lookahead_on)
+mLow = request.security(syminfo.ticker, "M", low[1], barmerge.gaps_off, barmerge.lookahead_on)
+mClose = request.security(syminfo.ticker, "M", close[1], barmerge.gaps_off, barmerge.lookahead_on)
+
+
+// Camarilla
+if showCam and sessionReg
     if showR1
         cr1l = line.new(startTime, cr1, time_close, cr1, xloc = xloc.bar_time, color = colorR1, style = line.style_dashed)
         line.delete(cr1l[1])
-        if camlabelsOn
-            cr1lb = label.new(lTime, cr1, text = "R1 - " + str.tostring(truncate(cr1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR1, size = size.small, style = label.style_none)    
-            label.delete(cr1lb[1])
+        // if camlabelsOn
+        //     cr1lb = label.new(lTime, cr1, text = "                     R1 - " + str.tostring(truncate(cr1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR1, size = size.small, style = label.style_none)    
+        //     label.delete(cr1lb[1])
     if showR2
         cr2l = line.new(startTime, cr2, time_close, cr2, xloc = xloc.bar_time, color = colorR2, style = line.style_dashed)
         line.delete(cr2l[1])
-        if camlabelsOn
-            cr2lb = label.new(lTime, cr2, text = "R2 - " + str.tostring(truncate(cr2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR2, size = size.small, style = label.style_none)
-            label.delete(cr2lb[1])
+//         if camlabelsOn
+//             cr2lb = label.new(lTime, cr2, text = "R2 - " + str.tostring(truncate(cr2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR2, size = size.small, style = label.style_none)
+//             label.delete(cr2lb[1])
     if showR3
         cr3l = line.new(startTime, cr3, time_close, cr3, xloc = xloc.bar_time, color = colorR3, style = line.style_dashed)
         line.delete(cr3l[1])
-        if camlabelsOn
-            cr3lb = label.new(lTime, cr3, text = "R3 - " + str.tostring(truncate(cr3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR3, size = size.small, style = label.style_none)
-            label.delete(cr3lb[1])
+//         if camlabelsOn
+//             cr3lb = label.new(lTime, cr3, text = "R3 - " + str.tostring(truncate(cr3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR3, size = size.small, style = label.style_none)
+//             label.delete(cr3lb[1])
     if showR4
         cr4l = line.new(startTime, cr4, time_close, cr4, xloc = xloc.bar_time, color = colorR4, style = line.style_dashed)
         line.delete(cr4l[1])
-        if camlabelsOn
-            cr4lb = label.new(lTime, cr4, text = "R4 - " + str.tostring(truncate(cr4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR4, size = size.small, style = label.style_none)
-            label.delete(cr4lb[1])
+//         if camlabelsOn
+//             cr4lb = label.new(lTime, cr4, text = "R4 - " + str.tostring(truncate(cr4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR4, size = size.small, style = label.style_none)
+//             label.delete(cr4lb[1])
     if showR5
         cr5l = line.new(startTime, cr5, time_close, cr5, xloc = xloc.bar_time, color = colorR5, style = line.style_dashed)
         line.delete(cr5l[1])
-        if camlabelsOn
-            cr5lb = label.new(lTime, cr5, text = "R5 - " + str.tostring(truncate(cr5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR5, size = size.small, style = label.style_none)
-            label.delete(cr5lb[1])
+//         if camlabelsOn
+//             cr5lb = label.new(lTime, cr5, text = "R5 - " + str.tostring(truncate(cr5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR5, size = size.small, style = label.style_none)
+//             label.delete(cr5lb[1])
     if showR6
         cr6l = line.new(startTime, cr6, time_close, cr6, xloc = xloc.bar_time, color = colorR6, style = line.style_dashed)
         line.delete(cr6l[1])
-        if camlabelsOn
-            cr6lb = label.new(lTime, cr6, text = "R6 - " + str.tostring(truncate(cr6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR6, size = size.small, style = label.style_none)
-            label.delete(cr6lb[1])
+//         if camlabelsOn
+//             cr6lb = label.new(lTime, cr6, text = "R6 - " + str.tostring(truncate(cr6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorR6, size = size.small, style = label.style_none)
+//             label.delete(cr6lb[1])
     
     if showS1
         cs1l = line.new(startTime, cs1, time_close, cs1, xloc = xloc.bar_time, color = colorS1, style = line.style_dashed)
         line.delete(cs1l[1])
-        if camlabelsOn
-            cs1lb = label.new(lTime, cs1, text = "S1 - " + str.tostring(truncate(cs1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS1, size = size.small, style = label.style_none)
-            label.delete(cs1lb[1])
+//         if camlabelsOn
+//             cs1lb = label.new(lTime, cs1, text = "S1 - " + str.tostring(truncate(cs1, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS1, size = size.small, style = label.style_none)
+//             label.delete(cs1lb[1])
     if showS2
         cs2l = line.new(startTime, cs2, time_close, cs2, xloc = xloc.bar_time, color = colorS2, style = line.style_dashed)
         line.delete(cs2l[1])
-        if camlabelsOn
-            cs2lb = label.new(lTime, cs2, text = "S2 - " + str.tostring(truncate(cs2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS2, size = size.small, style = label.style_none)
-            label.delete(cs2lb[1])
+//         if camlabelsOn
+//             cs2lb = label.new(lTime, cs2, text = "S2 - " + str.tostring(truncate(cs2, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS2, size = size.small, style = label.style_none)
+//             label.delete(cs2lb[1])
     if showS3    
         cs3l = line.new(startTime, cs3, time_close, cs3, xloc = xloc.bar_time, color = colorS3, style = line.style_dashed)
         line.delete(cs3l[1])
-        if camlabelsOn
-            cs3lb = label.new(lTime, cs3, text = "S3 - " + str.tostring(truncate(cs3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS3, size = size.small, style = label.style_none)
-            label.delete(cs3lb[1])
+//         if camlabelsOn
+//             cs3lb = label.new(lTime, cs3, text = "S3 - " + str.tostring(truncate(cs3, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS3, size = size.small, style = label.style_none)
+//             label.delete(cs3lb[1])
     if showS4    
         cs4l = line.new(startTime, cs4, time_close, cs4, xloc = xloc.bar_time, color = colorS4, style = line.style_dashed)
         line.delete(cs4l[1])
-        if camlabelsOn
-            cs4lb = label.new(lTime, cs4, text = "S4 - " + str.tostring(truncate(cs4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS4, size = size.small, style = label.style_none)
-            label.delete(cs4lb[1])
+//         if camlabelsOn
+//             cs4lb = label.new(lTime, cs4, text = "S4 - " + str.tostring(truncate(cs4, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS4, size = size.small, style = label.style_none)
+//             label.delete(cs4lb[1])
     if showS5
         cs5l = line.new(startTime, cs5, time_close, cs5, xloc = xloc.bar_time, color = colorS5, style = line.style_dashed)
         line.delete(cs5l[1])
-        if camlabelsOn
-            cs5lb = label.new(lTime, cs5, text = "S5 - " + str.tostring(truncate(cs5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS5, size = size.small, style = label.style_none)
-            label.delete(cs5lb[1])
+//         if camlabelsOn
+//             cs5lb = label.new(lTime, cs5, text = "S5 - " + str.tostring(truncate(cs5, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS5, size = size.small, style = label.style_none)
+//             label.delete(cs5lb[1])
     if showS6
         cs6l = line.new(startTime, cs6, time_close, cs6, xloc = xloc.bar_time, color = colorS6, style = line.style_dashed)
         line.delete(cs6l[1])
-        if camlabelsOn
-            cs6lb = label.new(lTime, cs6, text = "S6 - " + str.tostring(truncate(cs6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS6, size = size.small, style = label.style_none)
-            label.delete(cs6lb[1])
+//         if camlabelsOn
+//             cs6lb = label.new(lTime, cs6, text = "S6 - " + str.tostring(truncate(cs6, 2)), xloc = xloc.bar_time, yloc =  yloc.price, textalign = text.align_right, textcolor = colorS6, size = size.small, style = label.style_none)
+//             label.delete(cs6lb[1])
     
 
 // Persons
-if showPersons
-    ppl = line.new(startTime, pp, time_close, pp, xloc = xloc.bar_time)
-    line.delete(ppl[1])
+// if showPersons
+//     ppl = line.new(startTime, pp, time_close, pp, xloc = xloc.bar_time)
+//     line.delete(ppl[1])
     
-    pr1l = line.new(startTime, pr1, time_close, pr1, xloc = xloc.bar_time, color = color.rgb(229,43,80))
-    line.delete(pr1l[1])
-    pr2l = line.new(startTime, pr2, time_close, pr2, xloc = xloc.bar_time, color = color.rgb(229,43,80))
-    line.delete(pr2l[1])
+    // pr1l = line.new(startTime, pr1, time_close, pr1, xloc = xloc.bar_time, color = color.rgb(229,43,80))
+    // line.delete(pr1l[1])
+    // pr2l = line.new(startTime, pr2, time_close, pr2, xloc = xloc.bar_time, color = color.rgb(229,43,80))
+    // line.delete(pr2l[1])
     
-    ps1l = line.new(startTime, ps1, time_close, ps1, xloc = xloc.bar_time, color = color.rgb(41,171,135))
-    line.delete(ps1l[1])
-    ps2l = line.new(startTime, ps2, time_close, ps2, xloc = xloc.bar_time, color = color.rgb(41,171,135))
-    line.delete(ps2l[1])
+    // ps1l = line.new(startTime, ps1, time_close, ps1, xloc = xloc.bar_time, color = color.rgb(41,171,135))
+    // line.delete(ps1l[1])
+    // ps2l = line.new(startTime, ps2, time_close, ps2, xloc = xloc.bar_time, color = color.rgb(41,171,135))
+    // line.delete(ps2l[1])
